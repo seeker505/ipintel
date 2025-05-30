@@ -598,30 +598,18 @@
             }
 
             let markdownText = "";
-            // Find the H3 title for this section for context
-            const sectionTitle = element.closest('.section').querySelector('h3').innerText.replace(/🛡️ |🔬 |🌐 /g, '').trim(); // Clean emojis
-            markdownText += `### ${sectionTitle} for {{ ip or 'the IP' }}\n\n`;
-
-
-            // Process threat score if present (before main content)
-            const threatScoreContainer = element.parentElement.querySelector('.threat-score-container');
-            if (threatScoreContainer) {
-                const threatText = threatScoreContainer.querySelector('p').innerText;
-                markdownText += `**${threatText.split(':')[0].trim()}:** ${threatText.split(':')[1].trim()}\n\n`;
-            }
-
-
+            
             const childParagraphs = element.querySelectorAll('p');
 
             childParagraphs.forEach(p => {
                 if (p.classList.contains('report-summary')) {
-                    markdownText += p.innerText.trim() + "\n\n";
+                    markdownText += "- " + p.innerText.trim() + "\n";
                 } else {
                     const strongTag = p.querySelector('strong');
                     if (strongTag) {
                         const label = strongTag.innerText.replace(':', '').trim();
                         const value = p.innerText.replace(strongTag.innerText, '').trim();
-                        markdownText += `- **${label}:** ${value}\n`;
+                        markdownText += `   - **${label}:** ${value}\n`;
                     } else { 
                         markdownText += p.innerText.trim() + "\n"; 
                     }
@@ -631,7 +619,7 @@
             markdownText = markdownText.trim(); 
 
             if (linkHref) {
-                markdownText += `\n\n[View Full Report](${linkHref})`;
+                markdownText += `\n   - [View Full Report](${linkHref})`;
             }
 
             navigator.clipboard.writeText(markdownText).then(() => {
