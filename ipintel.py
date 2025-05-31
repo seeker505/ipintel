@@ -3,6 +3,7 @@ import requests
 import pycountry
 import vt
 from dotenv import load_dotenv
+# import json
 
 load_dotenv()
 
@@ -71,16 +72,98 @@ def check_virustotal(ip):
         return {"error": str(e)}
 
 def check_ipapi(ip):
-    url = f"http://ip-api.com/json/{ip}?fields=country,city,isp,proxy,hosting"
+    url = f"http://ip-api.com/json/{ip}?fields=country,city,isp,proxy,hosting,as"
     link = f"https://ip-api.com/#{ip}"
     response = requests.get(url)
     data = response.json()
     return {
         "summary": "As per IP-API, found this geo info:",
-        "city": data.get("city", "Unknown"),
-        "country": data.get("country", "Unknown"),
-        "isp": data.get("isp", "Unknown"),
-        "proxy": data.get("proxy", "Unknown"),
-        "hosting": data.get("hosting", "Unknown"),
-        "link": link
+        "city": data.get("city", "N/A"),
+        "country": data.get("country", "N/A"),
+        "isp": data.get("isp", "N/A"),
+        "proxy": data.get("proxy", "N/A"),
+        "hosting": data.get("hosting", "N/A"),
+        "link": link,
+        "as": data.get("as", "N/A")
     }
+
+
+def aggregate_report_data(report_data, ip):
+    overall_risk_level = "Unknown"
+    overall_risk_summary_text = "Data not fully processed for overall assessment."
+    aggregated_location = "N/A"
+    aggregated_isp = "N/A"
+    aggregated_asn = "N/A"
+    calculated_risk_score = 0
+    risk_factors_found = []
+
+    ipapi_data = report_data.get('ipapi', {})
+    if ipapi_data:
+        city = ipapi_data.get('city')
+        country = ipapi_data.get('country')
+        if city and country:
+            aggregated_location = f"{city}, {country}"
+        elif country:
+            aggregated_location = country
+        aggregated_isp = ipapi_data.get('isp')
+        aggregated_asn = ipapi_data.get('as')
+    elif report_data.get('abuseipdb'):
+        abuse = report_data['abuseipdb']
+        aggregated_location = abuse.get("location", "N/A")
+        aggregated_isp = abuse.get("isp", "N/A")
+
+    abuse = report_data.get('abuseipdb', {})
+    abuse_score = abuse.get('abuseConfidenceScore')
+    if abuse_score is not None:
+        abuse_score = int(abuse_score)
+        if abuse_score > 75:
+            calculated_risk_score += 3
+            risk_factors_found.append(f"high AbuseIPDB confidence ({abuse_score}%)")
+        elif abuse_score > 25:
+            calculated_risk_score += 1
+            risk_factors_found.append(f"moderate AbuseIPDB confidence ({abuse_score}%)")
+
+    vt = report_data.get('virustotal', {})
+    vt_malicious = vt.get('malicious')
+    if vt_malicious is not None:
+        vt_malicious = int(vt_malicious)
+        if vt_malicious > 5:
+            calculated_risk_score += 4
+            risk_factors_found.append(f"{vt_malicious} VirusTotal detections")
+        elif vt_malicious > 0:
+            calculated_risk_score += 2
+            risk_factors_found.append(f"{vt_malicious} VirusTotal detection(s)")
+
+    if ipapi_data.get("proxy", ""):
+        calculated_risk_score += 1
+        risk_factors_found.append("identified as Proxy/VPN")
+
+    # Final risk classification
+    if not risk_factors_found and (abuse or vt or ipapi_data):
+        overall_risk_level = "Low"
+        overall_risk_summary_text = "No significant threat indicators found."
+    elif calculated_risk_score >= 5:
+        overall_risk_level = "Critical"
+        overall_risk_summary_text = "Multiple critical threat indicators: " + ", ".join(risk_factors_found) + "."
+    elif calculated_risk_score >= 3:
+        overall_risk_level = "High"
+        overall_risk_summary_text = "Significant threat indicators: " + ", ".join(risk_factors_found) + "."
+    elif calculated_risk_score >= 1:
+        overall_risk_level = "Medium"
+        overall_risk_summary_text = "Some potential concerns: " + ", ".join(risk_factors_found) + "."
+    elif risk_factors_found:
+        overall_risk_level = "Low"
+        overall_risk_summary_text = "Minor indicators noted: " + ", ".join(risk_factors_found) + "."
+
+    return {
+        "ip": ip,
+        "overall_risk_level": overall_risk_level,
+        "overall_risk_summary_text": overall_risk_summary_text,
+        "aggregated_location": aggregated_location,
+        "aggregated_isp": aggregated_isp,
+        "aggregated_asn": aggregated_asn,   
+        "risk_score": calculated_risk_score,
+        "risk_factors": risk_factors_found
+    }
+
+
