@@ -7,20 +7,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&family=Roboto+Mono:wght@300;400;500&family=Aldrich&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep-space: #050810; 
-            --bg-overlay-start: rgba(8, 18, 35, 0.85); 
+            --bg-deep-space: #050810;
+            --bg-overlay-start: rgba(8, 18, 35, 0.85);
             --bg-overlay-end: rgba(5, 10, 20, 0.95);
 
-            --accent-primary: #00c2cb; 
+            --accent-primary: #00c2cb;
             --accent-primary-rgb: 0, 194, 203;
-            --accent-secondary: #8cb2d1; 
+            --accent-secondary: #8cb2d1;
             --accent-secondary-rgb: 140, 178, 209;
-            
-            --text-primary: #e8eff5; 
-            --text-secondary: #b0c0d0; 
+
+            --text-primary: #e8eff5;
+            --text-secondary: #b0c0d0;
             --text-accent: var(--accent-primary);
 
-            --card-bg-glass: rgba(15, 28, 48, 0.55); 
+            /* MODIFIED: Increased opacity slightly as backdrop-filter will be removed */
+            --card-bg-solid: rgba(15, 28, 48, 0.85); /* Was 0.55 with blur */
             --card-border: rgba(var(--accent-primary-rgb), 0.3);
             --card-border-hover: var(--accent-primary);
             --card-glow: rgba(var(--accent-primary-rgb), 0.25);
@@ -32,24 +33,28 @@
             --button-bg: var(--accent-primary);
             --button-text: var(--bg-deep-space);
             --button-hover-bg: #00a8b0;
-            
+
             --tooltip-bg: #101d2e;
             --tooltip-text: var(--accent-primary);
 
-            --risk-low-color: #2ecc71;         
-            --risk-medium-color: #f39c12;      
-            --risk-high-color: #e74c3c;        
-            --risk-critical-color: #c0392b;   
-            
-            --threat-low: var(--risk-low-color); 
-            --threat-medium: var(--risk-medium-color); 
-            --threat-high: var(--risk-high-color); 
+            --risk-low-color: #2ecc71;
+            --risk-medium-color: #f39c12;
+            --risk-high-color: #e74c3c;
+            --risk-critical-color: #c0392b;
+
+            --threat-low: var(--risk-low-color);
+            --threat-medium: var(--risk-medium-color);
+            --threat-high: var(--risk-high-color);
 
             --status-true-color-rgb: 46, 204, 113;
             --status-false-color-rgb: 231, 76, 60;
 
-            --font-display: 'Exo 2', 'Aldrich', sans-serif; 
-            --font-body: 'Roboto Mono', monospace; 
+            --font-display: 'Exo 2', 'Aldrich', sans-serif;
+            --font-body: 'Roboto Mono', monospace;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
@@ -62,7 +67,7 @@
                 radial-gradient(ellipse at 20% 80%, rgba(var(--accent-primary-rgb), 0.08) 0%, transparent 60%),
                 radial-gradient(ellipse at 80% 20%, rgba(var(--accent-secondary-rgb), 0.06) 0%, transparent 55%),
                 linear-gradient(170deg, var(--bg-overlay-start) 0%, var(--bg-overlay-end) 100%);
-            background-attachment: fixed;
+            /* background-attachment: fixed; /* Already removed this */
             color: var(--text-primary);
             min-height: 100vh;
             display: flex;
@@ -77,8 +82,8 @@
             margin-top: 30px;
             margin-bottom: 25px;
             font-family: var(--font-display);
-            font-size: 2.7rem; 
-            font-weight: 600; 
+            font-size: 2.7rem;
+            font-weight: 600;
             color: var(--text-accent);
             text-shadow: 0 0 5px rgba(var(--accent-primary-rgb), 0.5),
                          0 0 10px rgba(var(--accent-primary-rgb), 0.2);
@@ -99,7 +104,7 @@
             border-radius: 1px;
             opacity: 0.7;
         }
-        h2 span { 
+        h2 span {
             filter: drop-shadow(0 0 1px rgba(255,255,255,0.5));
         }
 
@@ -110,19 +115,19 @@
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 15px; 
+            gap: 15px;
         }
 
         input[type="text"] {
             padding: 13px 18px;
-            font-size: 0.9rem; 
+            font-size: 0.9rem;
             font-family: var(--font-body);
-            width: 320px; 
+            width: 320px;
             max-width: 90%;
             background: var(--input-bg);
             border: 1px solid var(--input-border);
             color: var(--text-primary);
-            border-radius: 4px; 
+            border-radius: 4px;
             outline: none;
             box-shadow: 0 0 3px rgba(var(--accent-secondary-rgb), 0.1) inset;
             transition: border-color 0.25s, box-shadow 0.25s;
@@ -142,12 +147,12 @@
             caret-color: var(--accent-primary) !important;
             font-family: var(--font-body) !important;
         }
-        
+
         button[type="submit"] {
             padding: 13px 28px;
             font-size: 0.95rem;
-            font-weight: 500; 
-            font-family: var(--font-display); 
+            font-weight: 500;
+            font-family: var(--font-display);
             text-transform: uppercase;
             letter-spacing: 1px;
             background-color: var(--button-bg);
@@ -156,12 +161,12 @@
             border-radius: 4px;
             cursor: pointer;
             transition: 0.25s ease;
-            box-shadow: 0 0 8px rgba(var(--accent-primary-rgb), 0.4), 
+            box-shadow: 0 0 8px rgba(var(--accent-primary-rgb), 0.4),
                         inset 0 0 4px rgba(255,255,255,0.1);
         }
         button[type="submit"]:hover {
             background-color: var(--button-hover-bg);
-            box-shadow: 0 0 12px var(--accent-primary), 
+            box-shadow: 0 0 12px var(--accent-primary),
                         inset 0 0 6px rgba(255,255,255,0.2);
             transform: translateY(-2px);
         }
@@ -169,24 +174,24 @@
         /* --- Summary Dashboard --- */
         .summary-dashboard {
             width: 100%;
-            max-width: 1280px; 
-            background: var(--card-bg-glass);
+            max-width: 1280px;
+            background: var(--card-bg-solid); /* MODIFIED: Using solid background */
             border: 1px solid var(--card-border);
             border-radius: 6px;
             padding: 20px 25px;
             margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0, 0.2), 
+            box-shadow: 0 4px 15px rgba(0,0,0, 0.2),
                         inset 0 0 0 1px rgba(var(--accent-primary-rgb),0.1);
-            backdrop-filter: blur(12px) saturate(110%);
+            /* backdrop-filter: blur(12px) saturate(110%); */ /* PERFORMANCE: Commented out */
             display: flex;
-            flex-wrap: wrap; 
-            justify-content: space-around; 
-            align-items: flex-start; 
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: flex-start;
             gap: 20px;
         }
         .dashboard-item {
-            flex: 1 1 280px; 
-            min-width: 250px; 
+            flex: 1 1 280px;
+            min-width: 250px;
             padding: 10px;
         }
         .dashboard-item h4 {
@@ -222,7 +227,7 @@
             font-size: 1.8rem;
             font-weight: 600;
             padding: 8px 0;
-            text-align: left; 
+            text-align: left;
         }
         .overall-risk .risk-assessment {
             font-size: 0.85rem;
@@ -235,14 +240,14 @@
         .score-display.risk-medium span, .indicator-value.risk-medium { color: var(--risk-medium-color); }
         .score-display.risk-high span, .indicator-value.risk-high { color: var(--risk-high-color); }
         .score-display.risk-critical span, .indicator-value.risk-critical { color: var(--risk-critical-color); }
-        .score-display.risk-unknown span { 
-            color: var(--text-secondary); 
+        .score-display.risk-unknown span {
+            color: var(--text-secondary);
             font-style: italic;
-            font-size: 1.5rem; 
+            font-size: 1.5rem;
         }
 
-        .status-value.status-true { color: var(--risk-low-color); } 
-        .status-value.status-false { color: var(--text-primary); } 
+        .status-value.status-true { color: var(--risk-low-color); }
+        .status-value.status-false { color: var(--text-primary); }
         .threat-indicators .status-value.is-proxy-true { color: var(--risk-medium-color); }
         .threat-indicators .status-value.is-proxy-false { color: var(--risk-low-color); }
 
@@ -250,8 +255,8 @@
         .progress-container {
             width: 80%;
             max-width: 500px;
-            height: 8px; 
-            background-color: rgba(var(--accent-primary-rgb), 0.08); 
+            height: 8px;
+            background-color: rgba(var(--accent-primary-rgb), 0.08);
             border: 1px solid rgba(var(--accent-primary-rgb), 0.15);
             border-radius: 4px;
             margin-bottom: 30px;
@@ -262,118 +267,119 @@
             width: 0%;
             height: 100%;
             background: var(--accent-primary);
-            border-radius: 3px; 
+            border-radius: 3px;
             transition: width 0.4s ease-in-out;
             box-shadow: 0 0 5px var(--accent-primary);
         }
-        
+
         .reports-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 28px; 
+            gap: 28px;
             width: 100%;
-            max-width: 1280px; 
+            max-width: 1280px;
             padding: 0 15px;
             margin-bottom: 40px;
         }
 
         .section {
-            background: var(--card-bg-glass);
+            background: var(--card-bg-solid); /* MODIFIED: Using solid background */
             border: 1px solid var(--card-border);
-            border-radius: 6px; 
-            padding: 22px; 
+            border-radius: 6px;
+            padding: 22px;
             width: 100%;
-            max-width: 370px; 
-            flex: 1 1 320px; 
+            max-width: 370px;
+            flex: 1 1 320px;
             box-shadow: 0 4px 15px rgba(0,0,0, 0.2),
-                        inset 0 0 0 1px rgba(var(--accent-primary-rgb),0.1); 
-            backdrop-filter: blur(12px) saturate(110%); 
+                        inset 0 0 0 1px rgba(var(--accent-primary-rgb),0.1);
+            /* backdrop-filter: blur(12px) saturate(110%); */ /* PERFORMANCE: Commented out */
             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
             position: relative;
-            display: flex; 
+            display: flex;
             flex-direction: column;
+            will-change: transform, box-shadow, border-color; /* PERFORMANCE: Hint for animations */
         }
         .section:hover {
-            transform: translateY(-5px) scale(1.02); 
+            transform: translateY(-5px) scale(1.02);
             border-color: var(--card-border-hover);
-            box-shadow: 0 6px 25px rgba(var(--accent-primary-rgb),0.15), 
+            box-shadow: 0 6px 25px rgba(var(--accent-primary-rgb),0.15),
                         0 0 10px var(--card-glow),
                         inset 0 0 0 1px rgba(var(--card-border-hover),0.3);
         }
-        
+
         .card-header-flex {
             display: flex;
             justify-content: space-between;
-            align-items: center; 
-            margin-bottom: 18px; 
-            gap: 10px; 
-            border-bottom: 1px solid rgba(var(--accent-primary-rgb), 0.15); 
+            align-items: center;
+            margin-bottom: 18px;
+            gap: 10px;
+            border-bottom: 1px solid rgba(var(--accent-primary-rgb), 0.15);
             padding-bottom: 12px;
         }
         .section h3 {
-            font-family: var(--font-display); 
-            font-weight: 500; 
+            font-family: var(--font-display);
+            font-weight: 500;
             color: var(--text-accent);
-            margin: 0; 
-            font-size: 1.25rem; 
+            margin: 0;
+            font-size: 1.25rem;
             text-shadow: 0 0 3px rgba(var(--accent-primary-rgb),0.4);
-            flex-grow: 1; 
-            word-break: break-word; 
+            flex-grow: 1;
+            word-break: break-word;
         }
 
         .summary-highlight-card {
-            background: rgba(var(--accent-primary-rgb), 0.04); 
+            background: rgba(var(--accent-primary-rgb), 0.04);
             border: 1px solid rgba(var(--accent-primary-rgb), 0.1);
-            border-left: 2px solid var(--accent-primary); 
-            padding: 10px 14px; 
+            border-left: 2px solid var(--accent-primary);
+            padding: 10px 14px;
             border-radius: 4px;
-            margin-bottom: 15px; 
+            margin-bottom: 15px;
         }
-        .report-summary { 
+        .report-summary {
             color: var(--text-secondary);
-            font-size: 0.88rem; 
+            font-size: 0.88rem;
             line-height: 1.65;
-            font-weight: 400; 
-            margin: 0; 
+            font-weight: 400;
+            margin: 0;
         }
 
-        .section p { 
+        .section p {
             color: var(--text-primary);
-            font-size: 0.88rem; 
-            line-height: 1.65; 
-            margin-bottom: 8px; 
-            font-weight: 400; 
+            font-size: 0.88rem;
+            line-height: 1.65;
+            margin-bottom: 8px;
+            font-weight: 400;
         }
-        .section p strong { 
-            color: var(--text-accent); 
-            font-weight: 500; 
+        .section p strong {
+            color: var(--text-accent);
+            font-weight: 500;
             margin-right: 7px;
         }
-        
+
         .threat-score-container, .ipapi-visuals-top-container {
-            margin-bottom: 12px; 
-            font-size: 0.85rem; 
+            margin-bottom: 12px;
+            font-size: 0.85rem;
         }
         .threat-score-container p, .ipapi-visuals-top-container p.info-indicator {
-            margin-bottom: 4px; 
+            margin-bottom: 4px;
             color: var(--text-secondary);
         }
         .threat-score-container p strong, .ipapi-visuals-top-container p.info-indicator strong {
-            color: var(--text-primary); 
-            font-weight: 500; 
+            color: var(--text-primary);
+            font-weight: 500;
         }
         .threat-progress {
             width: 100%;
-            height: 7px; 
-            background-color: rgba(var(--accent-primary-rgb), 0.1); 
+            height: 7px;
+            background-color: rgba(var(--accent-primary-rgb), 0.1);
             border-radius: 3px;
             overflow: hidden;
-            border: 1px solid rgba(var(--accent-primary-rgb), 0.1); 
+            border: 1px solid rgba(var(--accent-primary-rgb), 0.1);
         }
         .threat-progress-bar {
             height: 100%;
-            border-radius: 2px; 
+            border-radius: 2px;
             transition: width 0.4s ease-in-out, background-color 0.4s ease-in-out;
         }
 
@@ -383,13 +389,13 @@
             align-items: center;
         }
         .status-light {
-            width: 9px; 
+            width: 9px;
             height: 9px;
             border-radius: 50%;
             display: inline-block;
             transition: background-color 0.2s, box-shadow 0.2s;
             flex-shrink: 0;
-            border: 1px solid rgba(var(--accent-primary-rgb),0.1); 
+            border: 1px solid rgba(var(--accent-primary-rgb),0.1);
         }
         .status-light.is-true { background-color: var(--risk-low-color); box-shadow: 0 0 5px var(--risk-low-color), inset 0 0 2px rgba(255,255,255,0.2); }
         .status-light.is-false { background-color: var(--risk-high-color); box-shadow: 0 0 5px var(--risk-high-color), inset 0 0 2px rgba(255,255,255,0.1); }
@@ -401,7 +407,7 @@
             background-color: rgba(var(--accent-primary-rgb), 0.1);
             color: var(--accent-primary);
             border: 1px solid rgba(var(--accent-primary-rgb), 0.2);
-            width: 30px; height: 30px; padding: 0; border-radius: 4px; 
+            width: 30px; height: 30px; padding: 0; border-radius: 4px;
             cursor: pointer; transition: all 0.2s ease;
             display: flex; align-items: center; justify-content: center; position: relative;
         }
@@ -413,7 +419,7 @@
 
         .copy-btn::after, .copy-md-btn::after {
             content: attr(data-tooltip); position: absolute; bottom: 110%; left: 50%;
-            transform: translateX(-50%); background-color: var(--tooltip-bg); 
+            transform: translateX(-50%); background-color: var(--tooltip-bg);
             color: var(--tooltip-text); padding: 5px 10px; border-radius: 3px;
             font-size: 0.75rem; font-family: var(--font-body); font-weight: 400;
             white-space: nowrap; opacity: 0; visibility: hidden;
@@ -425,7 +431,7 @@
 
         .section .view-report-link { margin-top: auto; align-self: flex-start; padding-top: 12px; }
         .section .view-report-link button {
-            padding: 8px 15px; font-size: 0.85rem; font-weight: 500; 
+            padding: 8px 15px; font-size: 0.85rem; font-weight: 500;
             background-color: transparent; color: var(--accent-primary);
             border: 1px solid var(--accent-primary); border-radius: 4px;
             cursor: pointer; transition: 0.2s ease;
@@ -433,7 +439,7 @@
         }
         .section .view-report-link button:hover { background-color: var(--accent-primary); color: var(--bg-deep-space); box-shadow: 0 0 8px var(--accent-primary); }
 
-        @media (max-width: 992px) { 
+        @media (max-width: 992px) {
             .summary-dashboard { flex-direction: column; align-items: stretch;}
             .dashboard-item { flex-basis: auto; }
         }
@@ -451,7 +457,7 @@
             .section h3 { font-size: 1.15rem;}
         }
          @media (max-width: 480px) {
-            body { padding: 10px;} 
+            body { padding: 10px;}
             h2 { font-size: 1.9rem; letter-spacing: 1.5px; margin-top: 20px; margin-bottom: 20px; }
             form { margin: 20px 0 25px;}
             .summary-dashboard { margin-bottom: 20px; padding: 12px;}
@@ -470,6 +476,7 @@
     </style>
 </head>
 <body>
+    <!-- ... your HTML body content remains the same ... -->
     <h2><span >🌌</span> IP Threat Analyzer <span >🛰️</span></h2>
 
     <form method="post" id="analyze-form">
@@ -496,22 +503,17 @@
         </div>
         <div class="dashboard-item threat-indicators">
             <h4>Key Threat Intel</h4>
-            <!-- This section still pulls from the main 'report' object as before.
-                 If you want these to come from 'aggregated_report', you'd need to
-                 add them to your aggregated_data dictionary in the backend
-                 and change the Jinja variables here accordingly.
-            -->
-            <p><strong>AbuseIPDB Score:</strong> 
+            <p><strong>AbuseIPDB Score:</strong>
                 {% if report.abuseipdb and report.abuseipdb.abuseConfidenceScore is defined %}
                 <span class="indicator-value risk-{{ 'critical' if report.abuseipdb.abuseConfidenceScore > 75 else ('high' if report.abuseipdb.abuseConfidenceScore > 50 else ('medium' if report.abuseipdb.abuseConfidenceScore > 20 else 'low')) }}">
                     {{ report.abuseipdb.abuseConfidenceScore }}%
-                </span> 
+                </span>
                 ({{ report.abuseipdb.totalReports | default(0) }} reports)
                 {% else %}
                 <span class="indicator-value">N/A</span>
                 {% endif %}
             </p>
-            <p><strong>VirusTotal Detections:</strong> 
+            <p><strong>VirusTotal Detections:</strong>
                 {% if report.virustotal and report.virustotal.malicious is defined %}
                 <span class="indicator-value risk-{{ 'critical' if report.virustotal.malicious > 5 else ('high' if report.virustotal.malicious > 2 else ('medium' if report.virustotal.malicious > 0 else 'low')) }}">
                     {{ report.virustotal.malicious }}/{{ report.virustotal.total }}
@@ -553,7 +555,7 @@
                         </button>
                     </div>
                 </div>
-                
+
                 <div class="threat-score-container">
                     {% if report.abuseipdb.abuseConfidenceScore is defined and report.abuseipdb.totalReports is defined %}
                     <p><strong>Confidence Score:</strong> {{ report.abuseipdb.abuseConfidenceScore }}% ({{ report.abuseipdb.totalReports }} reports)</p>
@@ -632,7 +634,7 @@
         {% if report.ipapi %}
             <div class="section" id="ipapi-section">
                  <div class="card-header-flex">
-                    <h3>IP-API</h3> 
+                    <h3>IP-API</h3>
                     <div class="action-buttons-header">
                         <button class="copy-btn" data-tooltip="Copy Text" onclick="copyText('ipapi-text', this, '{{ report.ipapi.link }}')">
                             <svg viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg>
@@ -663,8 +665,8 @@
                     <p><strong>ISP:</strong> {{ report.ipapi.isp }}</p>
                     <p><strong>City:</strong> {{ report.ipapi.city }}</p>
                     <p><strong>Country:</strong> {{ report.ipapi.country }}</p>
-                    <p><strong>Proxy:</strong> {{ report.ipapi.proxy }}</p> 
-                    <p><strong>Hosting:</strong> {{ report.ipapi.hosting }}</p> 
+                    <p><strong>Proxy:</strong> {{ report.ipapi.proxy }}</p>
+                    <p><strong>Hosting:</strong> {{ report.ipapi.hosting }}</p>
                 </div>
                 <a href="{{ report.ipapi.link }}" target="_blank" rel="noopener noreferrer" class="view-report-link">
                     <button type="button">Full Report</button>
@@ -684,12 +686,12 @@
             textToCopy = textToCopy.trim();
             if (linkHref) { textToCopy += `\n\nView Full Report: ${linkHref}`; }
             navigator.clipboard.writeText(textToCopy).then(() => {
-                const originalTooltip = buttonElement.getAttribute('data-tooltip'); 
+                const originalTooltip = buttonElement.getAttribute('data-tooltip');
                 buttonElement.setAttribute('data-tooltip', 'Copied!');
                 setTimeout(() => { buttonElement.setAttribute('data-tooltip', originalTooltip); }, 1500);
             }).catch(err => {
                 console.error("Failed to copy: ", err);
-                const originalTooltip = buttonElement.getAttribute('data-tooltip'); 
+                const originalTooltip = buttonElement.getAttribute('data-tooltip');
                 buttonElement.setAttribute('data-tooltip', 'Failed!');
                 setTimeout(() => { buttonElement.setAttribute('data-tooltip', originalTooltip); }, 1500);
             });
@@ -711,7 +713,7 @@
                     } else { markdownText += p.innerText.trim() + "\n"; }
                 }
             });
-            markdownText = markdownText.trim(); 
+            markdownText = markdownText.trim();
             if (linkHref) { markdownText += `\n   - [View Full Report](${linkHref})`;}
             navigator.clipboard.writeText(markdownText).then(() => {
                 const originalTooltipText = buttonElement.getAttribute('data-tooltip');
@@ -736,15 +738,15 @@
                 progressContainer.style.display = 'block';
                 progressBar.style.width = '0%';
                 let width = 0;
-                const intervalTime = 150; const increment = 10; 
+                const intervalTime = 150; const increment = 10;
                 const interval = setInterval(() => {
-                    width += increment; 
+                    width += increment;
                     if (width <= 100) { progressBar.style.width = width + '%'; }
                     if (width >=100) { clearInterval(interval); }
-                }, intervalTime); 
+                }, intervalTime);
             });
         }
-        
+
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.copy-btn').forEach(btn => btn.setAttribute('data-tooltip', 'Copy Text'));
             document.querySelectorAll('.copy-md-btn').forEach(btn => btn.setAttribute('data-tooltip', 'Copy Markdown'));
