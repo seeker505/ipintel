@@ -3,51 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IP Threat Analyzer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&family=Orbitron:wght@400;700&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>IP Threat Analyzer :: Glass Interface</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&family=Roboto+Mono:wght@300;400;500&family=Aldrich&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Updated primary glow color to be more blue */
-            --primary-glow-color: #00aeff; /* Clearer Blue */
-            --primary-glow-color-rgb: 0, 174, 255;
+            --bg-deep-space: #050810; 
+            --bg-overlay-start: rgba(8, 18, 35, 0.85); 
+            --bg-overlay-end: rgba(5, 10, 20, 0.95);
 
-            --secondary-glow-color: #ff00ff;
-            --secondary-glow-color-rgb: 255, 0, 255;
+            --accent-primary: #00c2cb; 
+            --accent-primary-rgb: 0, 194, 203;
+            --accent-secondary: #8cb2d1; 
+            --accent-secondary-rgb: 140, 178, 209;
             
-            --background-start: #05101c;
-            --background-mid: #0d1c33;
-            --background-end: #162a4a;
+            --text-primary: #e8eff5; 
+            --text-secondary: #b0c0d0; 
+            --text-accent: var(--accent-primary);
 
-            --text-color: #e6f1ff;
-            --text-muted-color: #a8b2d1;
-            --card-bg: rgba(20, 40, 65, 0.65);
-            --card-border: rgba(var(--primary-glow-color-rgb), 0.25);
-            --input-bg: rgba(10, 25, 47, 0.5);
-            --button-bg: var(--primary-glow-color);
-            --button-text: #0a192f; /* Dark text for better contrast on new blue */
-            --button-hover-bg: #0095e0; /* Slightly darker hover for new blue */
-            --progress-bar-bg: var(--primary-glow-color);
-            --tooltip-bg: #233554;
-            --tooltip-text: var(--primary-glow-color);
+            --card-bg-glass: rgba(15, 28, 48, 0.55); 
+            --card-border: rgba(var(--accent-primary-rgb), 0.3);
+            --card-border-hover: var(--accent-primary);
+            --card-glow: rgba(var(--accent-primary-rgb), 0.25);
 
-            /* Threat score colors */
-            --threat-low: #4caf50; /* Green */
-            --threat-medium: #ff9800; /* Orange */
-            --threat-high: #f44336; /* Red */
+            --input-bg: rgba(10, 22, 40, 0.7);
+            --input-border: rgba(var(--accent-secondary-rgb), 0.4);
+            --input-focus-border: var(--accent-primary);
+
+            --button-bg: var(--accent-primary);
+            --button-text: var(--bg-deep-space);
+            --button-hover-bg: #00a8b0;
+            
+            --tooltip-bg: #101d2e;
+            --tooltip-text: var(--accent-primary);
+
+            --risk-low-color: #2ecc71;         
+            --risk-medium-color: #f39c12;      
+            --risk-high-color: #e74c3c;        
+            --risk-critical-color: #c0392b;   
+            
+            --threat-low: var(--risk-low-color); 
+            --threat-medium: var(--risk-medium-color); 
+            --threat-high: var(--risk-high-color); 
+
+            --status-true-color-rgb: 46, 204, 113;
+            --status-false-color-rgb: 231, 76, 60;
+
+            --font-display: 'Exo 2', 'Aldrich', sans-serif; 
+            --font-body: 'Roboto Mono', monospace; 
         }
 
         body {
             margin: 0;
             padding: 20px;
-            font-family: 'Rajdhani', sans-serif;
-            background-color: var(--background-start);
+            font-family: var(--font-body);
+            background-color: var(--bg-deep-space);
             background-image:
-                radial-gradient(ellipse at 15% 25%, rgba(var(--primary-glow-color-rgb), 0.12), transparent 50%),
-                radial-gradient(ellipse at 85% 75%, rgba(var(--secondary-glow-color-rgb), 0.08), transparent 50%),
-                linear-gradient(135deg, var(--background-start), var(--background-mid), var(--background-end));
-            background-size: 100% 100%, 100% 100%, auto;
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cdefs%3E%3Cpattern id='h' patternUnits='userSpaceOnUse' width='50' height='86.6' patternTransform='scale(0.8) rotate(0)'%3E%3Cpath d='M25 0 L50 14.43 L50 43.3 L25 57.73 L0 43.3 L0 14.43 Z M25 28.86 L50 43.3 M0 43.3 L25 28.86 M25 0 L25 28.86' stroke='rgba(0, 194, 203, 0.04)' stroke-width='1' fill='none'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23h)'/%3E%3C/svg%3E"),
+                radial-gradient(ellipse at 20% 80%, rgba(var(--accent-primary-rgb), 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(var(--accent-secondary-rgb), 0.06) 0%, transparent 55%),
+                linear-gradient(170deg, var(--bg-overlay-start) 0%, var(--bg-overlay-end) 100%);
             background-attachment: fixed;
-            color: var(--text-color);
+            color: var(--text-primary);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -58,384 +74,466 @@
         }
 
         h2 {
-            margin-top: 40px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.8rem;
-            color: var(--primary-glow-color);
-            text-shadow: 0 0 7px var(--primary-glow-color), 0 0 12px rgba(var(--primary-glow-color-rgb), 0.4), 0 0 2px rgba(255,255,255,0.6);
+            margin-top: 30px;
+            margin-bottom: 25px;
+            font-family: var(--font-display);
+            font-size: 2.7rem; 
+            font-weight: 600; 
+            color: var(--text-accent);
+            text-shadow: 0 0 5px rgba(var(--accent-primary-rgb), 0.5),
+                         0 0 10px rgba(var(--accent-primary-rgb), 0.2);
             letter-spacing: 2px;
-            text-align: center; /* Ensure it centers well */
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 40%;
+            height: 2px;
+            background: var(--accent-primary);
+            border-radius: 1px;
+            opacity: 0.7;
+        }
+        h2 span { 
+            filter: drop-shadow(0 0 1px rgba(255,255,255,0.5));
         }
 
         form {
-            margin: 30px 0 40px;
+            margin: 25px 0 35px;
             display: flex;
             flex-direction: row;
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 15px; 
         }
 
         input[type="text"] {
-            padding: 14px 18px;
-            font-size: 1rem;
-            width: 300px;
+            padding: 13px 18px;
+            font-size: 0.9rem; 
+            font-family: var(--font-body);
+            width: 320px; 
             max-width: 90%;
             background: var(--input-bg);
-            border: 1px solid var(--card-border);
-            color: #fff;
-            border-radius: 8px;
+            border: 1px solid var(--input-border);
+            color: var(--text-primary);
+            border-radius: 4px; 
             outline: none;
-            backdrop-filter: blur(8px);
-            box-shadow: 0 0 5px rgba(var(--primary-glow-color-rgb), 0.1) inset, 0 0 2px rgba(var(--primary-glow-color-rgb), 0.05);
-            transition: border-color 0.3s, box-shadow 0.3s;
-            caret-color: var(--primary-glow-color);
-            font-family: 'Rajdhani', sans-serif;
+            box-shadow: 0 0 3px rgba(var(--accent-secondary-rgb), 0.1) inset;
+            transition: border-color 0.25s, box-shadow 0.25s;
+            caret-color: var(--accent-primary);
         }
-
-        input[type="text"]::placeholder {
-            color: var(--text-muted-color);
-        }
-
+        input[type="text"]::placeholder { color: var(--text-secondary); opacity: 0.7; }
         input[type="text"]:focus {
-            border-color: var(--primary-glow-color);
-            box-shadow: 0 0 8px rgba(var(--primary-glow-color-rgb), 0.2) inset, 0 0 5px rgba(var(--primary-glow-color-rgb), 0.15);
+            border-color: var(--input-focus-border);
+            box-shadow: 0 0 6px rgba(var(--accent-primary-rgb), 0.2) inset, 0 0 5px var(--input-focus-border);
         }
-
         input[type="text"]:-webkit-autofill,
         input[type="text"]:-webkit-autofill:hover,
         input[type="text"]:-webkit-autofill:focus,
         input[type="text"]:-webkit-autofill:active {
             -webkit-box-shadow: 0 0 0 40px var(--input-bg) inset !important;
-            -webkit-text-fill-color: #fff !important;
-            caret-color: var(--primary-glow-color) !important;
-            transition: background-color 5000s ease-in-out 0s;
+            -webkit-text-fill-color: var(--text-primary) !important;
+            caret-color: var(--accent-primary) !important;
+            font-family: var(--font-body) !important;
         }
-        input[type="text"]:-moz-autofill {
-            box-shadow: 0 0 0 40px var(--input-bg) inset !important;
-            -moz-text-fill-color: #fff !important;
-        }
-
+        
         button[type="submit"] {
-            padding: 14px 25px;
-            font-size: 1rem;
-            font-weight: 600;
+            padding: 13px 28px;
+            font-size: 0.95rem;
+            font-weight: 500; 
+            font-family: var(--font-display); 
+            text-transform: uppercase;
+            letter-spacing: 1px;
             background-color: var(--button-bg);
             color: var(--button-text);
             border: none;
-            border-radius: 8px;
+            border-radius: 4px;
             cursor: pointer;
-            transition: 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-family: 'Rajdhani', sans-serif;
-            box-shadow: 0 0 7px rgba(var(--primary-glow-color-rgb), 0.5), 0 0 3px rgba(var(--primary-glow-color-rgb), 0.3);
+            transition: 0.25s ease;
+            box-shadow: 0 0 8px rgba(var(--accent-primary-rgb), 0.4), 
+                        inset 0 0 4px rgba(255,255,255,0.1);
         }
-
         button[type="submit"]:hover {
             background-color: var(--button-hover-bg);
-            box-shadow: 0 0 10px rgba(var(--primary-glow-color-rgb), 0.6), 0 0 6px rgba(var(--primary-glow-color-rgb), 0.4);
+            box-shadow: 0 0 12px var(--accent-primary), 
+                        inset 0 0 6px rgba(255,255,255,0.2);
             transform: translateY(-2px);
         }
+
+        /* --- Summary Dashboard --- */
+        .summary-dashboard {
+            width: 100%;
+            max-width: 1280px; 
+            background: var(--card-bg-glass);
+            border: 1px solid var(--card-border);
+            border-radius: 6px;
+            padding: 20px 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0, 0.2), 
+                        inset 0 0 0 1px rgba(var(--accent-primary-rgb),0.1);
+            backdrop-filter: blur(12px) saturate(110%);
+            display: flex;
+            flex-wrap: wrap; 
+            justify-content: space-around; 
+            align-items: flex-start; 
+            gap: 20px;
+        }
+        .dashboard-item {
+            flex: 1 1 280px; 
+            min-width: 250px; 
+            padding: 10px;
+        }
+        .dashboard-item h4 {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            color: var(--text-accent);
+            margin-top: 0;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(var(--accent-primary-rgb), 0.2);
+            padding-bottom: 8px;
+            font-weight: 500;
+        }
+        .dashboard-item p {
+            font-size: 0.88rem;
+            line-height: 1.6;
+            margin-bottom: 6px;
+            color: var(--text-secondary);
+        }
+        .dashboard-item p strong {
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-right: 5px;
+        }
+        .dashboard-item .indicator-value, .dashboard-item .status-value {
+            font-weight: 500;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.85rem;
+        }
+
+        .overall-risk .score-display {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 600;
+            padding: 8px 0;
+            text-align: left; 
+        }
+        .overall-risk .risk-assessment {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-top: 5px;
+        }
+
+        .score-display.risk-low span, .indicator-value.risk-low { color: var(--risk-low-color); }
+        .score-display.risk-medium span, .indicator-value.risk-medium { color: var(--risk-medium-color); }
+        .score-display.risk-high span, .indicator-value.risk-high { color: var(--risk-high-color); }
+        .score-display.risk-critical span, .indicator-value.risk-critical { color: var(--risk-critical-color); }
+        .score-display.risk-unknown span { 
+            color: var(--text-secondary); 
+            font-style: italic;
+            font-size: 1.5rem; 
+        }
+
+        .status-value.status-true { color: var(--risk-low-color); } 
+        .status-value.status-false { color: var(--text-primary); } 
+        .threat-indicators .status-value.is-proxy-true { color: var(--risk-medium-color); }
+        .threat-indicators .status-value.is-proxy-false { color: var(--risk-low-color); }
+
 
         .progress-container {
             width: 80%;
             max-width: 500px;
-            height: 10px;
-            background-color: rgba(0, 0, 0, 0.3);
-            border-radius: 5px;
+            height: 8px; 
+            background-color: rgba(var(--accent-primary-rgb), 0.08); 
+            border: 1px solid rgba(var(--accent-primary-rgb), 0.15);
+            border-radius: 4px;
             margin-bottom: 30px;
             overflow: hidden;
             display: none;
         }
-
         .progress-bar {
             width: 0%;
             height: 100%;
-            background: linear-gradient(90deg, var(--primary-glow-color), var(--secondary-glow-color));
-            border-radius: 5px;
-            transition: width 0.5s ease-in-out;
-            box-shadow: 0 0 4px rgba(var(--primary-glow-color-rgb),0.5), 0 0 6px rgba(var(--secondary-glow-color-rgb),0.5);
+            background: var(--accent-primary);
+            border-radius: 3px; 
+            transition: width 0.4s ease-in-out;
+            box-shadow: 0 0 5px var(--accent-primary);
         }
         
         .reports-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 25px;
+            gap: 28px; 
             width: 100%;
-            max-width: 1200px;
-            padding: 0 10px;
+            max-width: 1280px; 
+            padding: 0 15px;
             margin-bottom: 40px;
         }
 
         .section {
-            background: var(--card-bg);
+            background: var(--card-bg-glass);
             border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 25px;
+            border-radius: 6px; 
+            padding: 22px; 
             width: 100%;
-            max-width: 350px;
-            flex: 1 1 300px;
-            box-shadow: 0 0 12px rgba(var(--primary-glow-color-rgb), 0.08), 0 0 6px rgba(0,0,0,0.15) inset;
-            backdrop-filter: blur(10px);
-            /* position: relative; REMOVED - not needed here anymore due to card-header-flex */
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border-top: 3px solid var(--primary-glow-color);
+            max-width: 370px; 
+            flex: 1 1 320px; 
+            box-shadow: 0 4px 15px rgba(0,0,0, 0.2),
+                        inset 0 0 0 1px rgba(var(--accent-primary-rgb),0.1); 
+            backdrop-filter: blur(12px) saturate(110%); 
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            position: relative;
             display: flex; 
             flex-direction: column;
-            font-family: 'Exo 2', sans-serif;
         }
-
         .section:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 0 18px rgba(var(--primary-glow-color-rgb), 0.12), 0 0 10px rgba(var(--primary-glow-color-rgb), 0.05), 0 0 7px rgba(0,0,0,0.1) inset;
+            transform: translateY(-5px) scale(1.02); 
+            border-color: var(--card-border-hover);
+            box-shadow: 0 6px 25px rgba(var(--accent-primary-rgb),0.15), 
+                        0 0 10px var(--card-glow),
+                        inset 0 0 0 1px rgba(var(--card-border-hover),0.3);
         }
         
-        /* New Flex Container for Card Header */
         .card-header-flex {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start; /* Align items to the top */
-            margin-bottom: 15px; /* Space below header */
-            gap: 10px; /* Gap between title and buttons if title is short */
+            align-items: center; 
+            margin-bottom: 18px; 
+            gap: 10px; 
+            border-bottom: 1px solid rgba(var(--accent-primary-rgb), 0.15); 
+            padding-bottom: 12px;
         }
-
         .section h3 {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--primary-glow-color);
-            margin-top: 0;
-            margin-bottom: 0; /* Adjusted, spacing now handled by card-header-flex */
-            font-size: 1.4rem;
-            text-shadow: 0 0 4px rgba(var(--primary-glow-color-rgb), 0.6);
-            flex-grow: 1; /* Allow title to take available space */
-            word-break: break-word; /* Allow long titles to wrap */
+            font-family: var(--font-display); 
+            font-weight: 500; 
+            color: var(--text-accent);
+            margin: 0; 
+            font-size: 1.25rem; 
+            text-shadow: 0 0 3px rgba(var(--accent-primary-rgb),0.4);
+            flex-grow: 1; 
+            word-break: break-word; 
         }
 
-        .report-summary {
-            color: var(--text-muted-color);
-            font-size: 1.05rem;
-            line-height: 1.6;  
-            margin-bottom: 18px;
-            border-left: 3px solid var(--secondary-glow-color);
-            padding-left: 12px;
-            font-weight: 400;
+        .summary-highlight-card {
+            background: rgba(var(--accent-primary-rgb), 0.04); 
+            border: 1px solid rgba(var(--accent-primary-rgb), 0.1);
+            border-left: 2px solid var(--accent-primary); 
+            padding: 10px 14px; 
+            border-radius: 4px;
+            margin-bottom: 15px; 
+        }
+        .report-summary { 
+            color: var(--text-secondary);
+            font-size: 0.88rem; 
+            line-height: 1.65;
+            font-weight: 400; 
+            margin: 0; 
         }
 
         .section p { 
-            color: var(--text-color);
-            font-size: 1rem;
-            line-height: 1.7; 
-            margin-bottom: 12px;
-            font-weight: 400;
+            color: var(--text-primary);
+            font-size: 0.88rem; 
+            line-height: 1.65; 
+            margin-bottom: 8px; 
+            font-weight: 400; 
         }
-
-        .section p strong {
-            color: var(--primary-glow-color);
-            font-weight: 600;
-            margin-right: 8px;
-        }
-
-        .action-buttons-header {
-            /* position: absolute; REMOVED */
-            /* top: 15px; REMOVED */
-            /* right: 15px; REMOVED */
-            display: flex;
-            gap: 8px;
-            z-index: 5;
-            flex-shrink: 0; /* Prevent buttons from shrinking */
-        }
-
-        .copy-btn, .copy-md-btn {
-            background-color: rgba(var(--primary-glow-color-rgb), 0.1);
-            color: var(--primary-glow-color);
-            border: 1px solid rgba(var(--primary-glow-color-rgb), 0.3);
-            width: 32px;
-            height: 32px;
-            padding: 0;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s, transform 0.2s, border-color 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .copy-btn svg, .copy-md-btn svg {
-            width: 16px;
-            height: 16px;
-            fill: currentColor;
+        .section p strong { 
+            color: var(--text-accent); 
+            font-weight: 500; 
+            margin-right: 7px;
         }
         
-        .copy-btn:hover, .copy-md-btn:hover {
-            background-color: var(--primary-glow-color);
-            color: var(--button-text);
-            border-color: var(--primary-glow-color);
+        .threat-score-container, .ipapi-visuals-top-container {
+            margin-bottom: 12px; 
+            font-size: 0.85rem; 
         }
-        .copy-btn:active, .copy-md-btn:active {
-            transform: scale(0.92);
+        .threat-score-container p, .ipapi-visuals-top-container p.info-indicator {
+            margin-bottom: 4px; 
+            color: var(--text-secondary);
         }
-
-        .copy-md-btn {
-            background-color: rgba(var(--secondary-glow-color-rgb), 0.1);
-            color: var(--secondary-glow-color);
-            border-color: rgba(var(--secondary-glow-color-rgb), 0.3);
-        }
-        .copy-md-btn:hover {
-            background-color: var(--secondary-glow-color);
-            color: var(--button-text);
-            border-color: var(--secondary-glow-color);
-        }
-
-        .copy-btn::after, .copy-md-btn::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 110%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: var(--tooltip-bg);
-            color: var(--tooltip-text);
-            padding: 6px 10px;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 600;
-            white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out, transform 0.2s ease-in-out;
-            pointer-events: none;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        .copy-btn:hover::after, .copy-md-btn:hover::after {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(-5px);
-        }
-
-        /* Styles for Threat Score Progress Bars */
-        .threat-score-container {
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-        }
-        .threat-score-container p {
-            margin-bottom: 5px; /* Smaller margin for text above bar */
-            font-size: 0.9em;
-            color: var(--text-muted-color);
-        }
-        .threat-score-container p strong {
-            color: var(--text-color); /* Make label slightly more prominent */
+        .threat-score-container p strong, .ipapi-visuals-top-container p.info-indicator strong {
+            color: var(--text-primary); 
+            font-weight: 500; 
         }
         .threat-progress {
             width: 100%;
-            height: 10px; /* Slightly taller for better visibility */
-            background-color: rgba(0, 0, 0, 0.35); /* Darker background */
-            border-radius: 5px;
+            height: 7px; 
+            background-color: rgba(var(--accent-primary-rgb), 0.1); 
+            border-radius: 3px;
             overflow: hidden;
-            border: 1px solid rgba(var(--primary-glow-color-rgb), 0.1); /* Subtle border */
+            border: 1px solid rgba(var(--accent-primary-rgb), 0.1); 
         }
         .threat-progress-bar {
             height: 100%;
-            border-radius: 4px; /* Match outer radius if desired, or slightly less */
-            transition: width 0.5s ease-in-out, background-color 0.5s ease-in-out;
-            box-shadow: inset 0 0 2px rgba(0,0,0,0.2); /* Inner shadow for depth */
-        }
-        /* End Threat Score Progress Bar Styles */
-
-
-        .section .view-report-link {
-            margin-top: auto; 
-            align-self: flex-start; 
-            padding-top: 15px; 
+            border-radius: 2px; 
+            transition: width 0.4s ease-in-out, background-color 0.4s ease-in-out;
         }
 
+        .ipapi-visuals-top-container p.info-indicator {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .status-light {
+            width: 9px; 
+            height: 9px;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.2s, box-shadow 0.2s;
+            flex-shrink: 0;
+            border: 1px solid rgba(var(--accent-primary-rgb),0.1); 
+        }
+        .status-light.is-true { background-color: var(--risk-low-color); box-shadow: 0 0 5px var(--risk-low-color), inset 0 0 2px rgba(255,255,255,0.2); }
+        .status-light.is-false { background-color: var(--risk-high-color); box-shadow: 0 0 5px var(--risk-high-color), inset 0 0 2px rgba(255,255,255,0.1); }
+
+        #ipapi-section #ipapi-text.ipapi-text-no-summary { padding-top: 42px; }
+
+        .action-buttons-header { display: flex; gap: 8px; z-index: 2; flex-shrink: 0; }
+        .copy-btn, .copy-md-btn {
+            background-color: rgba(var(--accent-primary-rgb), 0.1);
+            color: var(--accent-primary);
+            border: 1px solid rgba(var(--accent-primary-rgb), 0.2);
+            width: 30px; height: 30px; padding: 0; border-radius: 4px; 
+            cursor: pointer; transition: all 0.2s ease;
+            display: flex; align-items: center; justify-content: center; position: relative;
+        }
+        .copy-btn svg, .copy-md-btn svg { width: 14px; height: 14px; fill: currentColor; }
+        .copy-btn:hover, .copy-md-btn:hover { background-color: var(--accent-primary); color: var(--bg-deep-space); border-color: var(--accent-primary); box-shadow: 0 0 5px var(--accent-primary); }
+        .copy-md-btn { background-color: rgba(var(--accent-secondary-rgb), 0.15); color: var(--accent-secondary); border-color: rgba(var(--accent-secondary-rgb), 0.25); }
+        .copy-md-btn:hover { background-color: var(--accent-secondary); color: var(--bg-deep-space); border-color: var(--accent-secondary); box-shadow: 0 0 5px var(--accent-secondary); }
+        .copy-btn:active, .copy-md-btn:active { transform: scale(0.93); }
+
+        .copy-btn::after, .copy-md-btn::after {
+            content: attr(data-tooltip); position: absolute; bottom: 110%; left: 50%;
+            transform: translateX(-50%); background-color: var(--tooltip-bg); 
+            color: var(--tooltip-text); padding: 5px 10px; border-radius: 3px;
+            font-size: 0.75rem; font-family: var(--font-body); font-weight: 400;
+            white-space: nowrap; opacity: 0; visibility: hidden;
+            transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out, transform 0.2s ease-in-out;
+            pointer-events: none; box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            border: 1px solid rgba(var(--tooltip-text),0.2);
+        }
+        .copy-btn:hover::after, .copy-md-btn:hover::after { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(-3px); }
+
+        .section .view-report-link { margin-top: auto; align-self: flex-start; padding-top: 12px; }
         .section .view-report-link button {
-            padding: 8px 15px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            background-color: transparent;
-            color: var(--primary-glow-color);
-            border: 1px solid var(--primary-glow-color);
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s ease;
-            text-transform: uppercase;
-            font-family: 'Rajdhani', sans-serif;
+            padding: 8px 15px; font-size: 0.85rem; font-weight: 500; 
+            background-color: transparent; color: var(--accent-primary);
+            border: 1px solid var(--accent-primary); border-radius: 4px;
+            cursor: pointer; transition: 0.2s ease;
+            text-transform: uppercase; letter-spacing: 0.8px; font-family: var(--font-display);
         }
+        .section .view-report-link button:hover { background-color: var(--accent-primary); color: var(--bg-deep-space); box-shadow: 0 0 8px var(--accent-primary); }
 
-        .section .view-report-link button:hover {
-            background-color: var(--primary-glow-color);
-            color: var(--button-text);
-            box-shadow: 0 0 8px rgba(var(--primary-glow-color-rgb), 0.5);
+        @media (max-width: 992px) { 
+            .summary-dashboard { flex-direction: column; align-items: stretch;}
+            .dashboard-item { flex-basis: auto; }
         }
-
         @media (max-width: 768px) {
-            h2 {
-                font-size: 2.2rem;
-            }
-            form {
-                flex-direction: column;
-            }
-            input[type="text"] {
-                width: 80%;
-            }
-            button[type="submit"] {
-                width: 80%;
-                margin-top: 10px;
-            }
-            .reports-container {
-                flex-direction: column;
-                align-items: center;
-            }
-            .section {
-                 max-width: 90%;
-            }
-            .card-header-flex {
-                /* Could stack title and buttons on small screens if needed */
-                /* flex-direction: column; 
-                   align-items: flex-start; */
-            }
-            .action-buttons-header {
-                /* margin-top: 10px; if stacking */
-            }
+            h2 { font-size: 2.3rem; }
+            form { flex-direction: column; }
+            input[type="text"] { width: 85%; }
+            button[type="submit"] { width: 85%; margin-top: 10px; }
+            .summary-dashboard {padding: 15px;}
+            .dashboard-item h4 {font-size: 1rem;}
+            .dashboard-item p {font-size: 0.85rem;}
+            .overall-risk .score-display {font-size: 1.6rem;}
+            .reports-container { flex-direction: column; align-items: center; gap: 20px;}
+            .section { max-width: 90%; padding: 18px; }
+            .section h3 { font-size: 1.15rem;}
         }
          @media (max-width: 480px) {
-            h2 {
-                font-size: 1.8rem;
-            }
-            /* Adjust button size and card header for very small screens if title is too long */
-            .card-header-flex {
-                align-items: center; /* Center items vertically for better look if title wraps */
-            }
-            .section h3 {
-                font-size: 1.2rem; /* Slightly smaller title */
-            }
-            .action-buttons-header {
-                /* top: 10px; REMOVED */
-                /* right: 10px; REMOVED */
-            }
-            .copy-btn, .copy-md-btn {
-                width: 28px;
-                height: 28px;
-            }
-            .copy-btn svg, .copy-md-btn svg {
-                width: 14px;
-                height: 14px;
-            }
-         }
+            body { padding: 10px;} 
+            h2 { font-size: 1.9rem; letter-spacing: 1.5px; margin-top: 20px; margin-bottom: 20px; }
+            form { margin: 20px 0 25px;}
+            .summary-dashboard { margin-bottom: 20px; padding: 12px;}
+            .dashboard-item { padding: 8px;}
+            .dashboard-item h4 { font-size: 0.95rem; margin-bottom: 8px; padding-bottom: 6px;}
+            .dashboard-item p { font-size: 0.82rem; margin-bottom: 4px;}
+            .overall-risk .score-display {font-size: 1.4rem;}
 
+            .section h3 { font-size: 1.1rem; }
+            .section p, .report-summary { font-size: 0.82rem;}
+            .action-buttons-header { gap: 6px;}
+            .copy-btn, .copy-md-btn { width: 28px; height: 28px; }
+            .copy-btn svg, .copy-md-btn svg { width: 12px; height: 12px; }
+            .section .view-report-link button { padding: 7px 12px; font-size: 0.8rem;}
+         }
     </style>
 </head>
 <body>
-    <h2><span style="filter: drop-shadow(0 0 1px rgba(255,255,255,0.6));">🌌</span> IP Threat Analyzer <span style="filter: drop-shadow(0 0 1px rgba(255,255,255,0.6));">🛰️</span></h2>
+    <h2><span >🌌</span> IP Threat Analyzer <span >🛰️</span></h2>
 
     <form method="post" id="analyze-form">
-        <input type="text" name="ip" placeholder="Enter IP address" required value="{{ ip or '' }}">
-        <button type="submit">Analyze</button>
+        <input type="text" name="ip" placeholder="Enter IP Address..." required value="{{ ip or '' }}">
+        <button type="submit">Analyze Target</button>
     </form>
+
+        <!-- NEW SUMMARY DASHBOARD -->
+    {% if aggregated_report %} {# Show dashboard if aggregated_report data exists #}
+    <div class="summary-dashboard">
+        <div class="dashboard-item overall-risk">
+            <h4>Overall Intel Score</h4>
+            <div class="score-display {% if aggregated_report.overall_risk_level and aggregated_report.overall_risk_level != 'N/A' and aggregated_report.overall_risk_level != 'Unknown' %}risk-{{ aggregated_report.overall_risk_level | lower }}{% else %}risk-unknown{% endif %}">
+                <span>{{ aggregated_report.overall_risk_level | default('N/A') }}</span>
+            </div>
+            <p class="risk-assessment">{{ aggregated_report.overall_risk_summary_text | default('Analysis pending or insufficient data.') }}</p>
+        </div>
+        <div class="dashboard-item geo-info">
+            <h4>Geo & Network</h4>
+            <p><strong>IP Address:</strong> <span>{{ aggregated_report.ip | default('N/A') }}</span></p>
+            <p><strong>Location:</strong> <span>{{ aggregated_report.aggregated_location | default('N/A') }}</span></p>
+            <p><strong>ISP:</strong> <span>{{ aggregated_report.aggregated_isp | default('N/A') }}</span></p>
+            <p><strong>ASN & Org:</strong> <span>{{ aggregated_report.aggregated_asn | default('N/A') }}</span></p>
+        </div>
+        <div class="dashboard-item threat-indicators">
+            <h4>Key Threat Intel</h4>
+            <!-- This section still pulls from the main 'report' object as before.
+                 If you want these to come from 'aggregated_report', you'd need to
+                 add them to your aggregated_data dictionary in the backend
+                 and change the Jinja variables here accordingly.
+            -->
+            <p><strong>AbuseIPDB Score:</strong> 
+                {% if report.abuseipdb and report.abuseipdb.abuseConfidenceScore is defined %}
+                <span class="indicator-value risk-{{ 'critical' if report.abuseipdb.abuseConfidenceScore > 75 else ('high' if report.abuseipdb.abuseConfidenceScore > 50 else ('medium' if report.abuseipdb.abuseConfidenceScore > 20 else 'low')) }}">
+                    {{ report.abuseipdb.abuseConfidenceScore }}%
+                </span> 
+                ({{ report.abuseipdb.totalReports | default(0) }} reports)
+                {% else %}
+                <span class="indicator-value">N/A</span>
+                {% endif %}
+            </p>
+            <p><strong>VirusTotal Detections:</strong> 
+                {% if report.virustotal and report.virustotal.malicious is defined %}
+                <span class="indicator-value risk-{{ 'critical' if report.virustotal.malicious > 5 else ('high' if report.virustotal.malicious > 2 else ('medium' if report.virustotal.malicious > 0 else 'low')) }}">
+                    {{ report.virustotal.malicious }}/{{ report.virustotal.total }}
+                </span>
+                {% else %}
+                <span class="indicator-value">N/A</span>
+                {% endif %}
+            </p>
+            <p><strong>Known Proxy/VPN:</strong>
+                {% if report.ipapi and report.ipapi.proxy is defined %}
+                    <span class="status-value is-proxy-{{ (report.ipapi.proxy == 'True' or report.ipapi.proxy == True) | string | lower }}">
+                         {{ 'Yes' if (report.ipapi.proxy) else 'No' }}
+                    </span>
+                {% else %}
+                    <span class="status-value">N/A</span>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+    {% endif %}
+    <!-- END SUMMARY DASHBOARD -->
+
 
     <div class="progress-container" id="progress-container">
         <div class="progress-bar" id="progress-bar"></div>
@@ -445,41 +543,43 @@
         {% if report.abuseipdb %}
             <div class="section" id="abuseipdb-section">
                 <div class="card-header-flex">
-                    <h3>🛡️ AbuseIPDB Report</h3>
+                    <h3>AbuseIPDB</h3>
                     <div class="action-buttons-header">
-                        <button class="copy-btn" data-tooltip="Copy" onclick="copyText('abuseipdb-text', this, '{{ report.abuseipdb.link }}')">
+                        <button class="copy-btn" data-tooltip="Copy Text" onclick="copyText('abuseipdb-text', this, '{{ report.abuseipdb.link }}')">
                             <svg viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg>
                         </button>
-                        <button class="copy-md-btn" data-tooltip="Copy as MD" onclick="copyTextAsMarkdown('abuseipdb-text', this, '{{ report.abuseipdb.link }}')">
+                        <button class="copy-md-btn" data-tooltip="Copy Markdown" onclick="copyTextAsMarkdown('abuseipdb-text', this, '{{ report.abuseipdb.link }}')">
                             <svg viewBox="0 0 16 16"><path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l3.5-3.5a.5.5 0 0 0-.708 0z"/></svg>
                         </button>
                     </div>
                 </div>
                 
-                {% if report.abuseipdb.abuseConfidenceScore is defined and report.abuseipdb.totalReports is defined %}
                 <div class="threat-score-container">
+                    {% if report.abuseipdb.abuseConfidenceScore is defined and report.abuseipdb.totalReports is defined %}
                     <p><strong>Confidence Score:</strong> {{ report.abuseipdb.abuseConfidenceScore }}% ({{ report.abuseipdb.totalReports }} reports)</p>
                     <div class="threat-progress">
                         {% set score = report.abuseipdb.abuseConfidenceScore %}
-                        {% set bar_color = 'var(--threat-low)' %} {# Default to low #}
-                        {% if score > 75 %}
-                            {% set bar_color = 'var(--threat-high)' %}
-                        {% elif score > 25 %}
-                            {% set bar_color = 'var(--threat-medium)' %}
+                        {% set bar_color = 'var(--threat-low)' %}
+                        {% if score > 75 %}{% set bar_color = 'var(--threat-high)' %}
+                        {% elif score > 25 %}{% set bar_color = 'var(--threat-medium)' %}
                         {% endif %}
                         <div class="threat-progress-bar" style="width: {{ score }}%; background-color: {{ bar_color }};"></div>
                     </div>
+                    {% endif %}
                 </div>
-                {% endif %}
 
                 <div id="abuseipdb-text">
-                    <p class="report-summary">{{ report.abuseipdb.summary }}</p>
+                    {% if report.abuseipdb.summary %}
+                    <div class="summary-highlight-card">
+                        <p class="report-summary">{{ report.abuseipdb.summary }}</p>
+                    </div>
+                    {% endif %}
                     <p><strong>ISP:</strong> {{ report.abuseipdb.isp }}</p>
                     <p><strong>Location:</strong> {{ report.abuseipdb.location }}</p>
                     <p><strong>Usage:</strong> {{ report.abuseipdb.usage }}</p>
                 </div>
                 <a href="{{ report.abuseipdb.link }}" target="_blank" rel="noopener noreferrer" class="view-report-link">
-                    <button type="button">View Full Report</button>
+                    <button type="button">Full Report</button>
                 </a>
             </div>
         {% endif %}
@@ -487,42 +587,44 @@
         {% if report.virustotal %}
             <div class="section" id="virustotal-section">
                 <div class="card-header-flex">
-                    <h3>🔬 VirusTotal Report</h3>
+                    <h3>VirusTotal</h3>
                     <div class="action-buttons-header">
-                        <button class="copy-btn" data-tooltip="Copy" onclick="copyText('virustotal-text', this, '{{ report.virustotal.link }}')">
+                        <button class="copy-btn" data-tooltip="Copy Text" onclick="copyText('virustotal-text', this, '{{ report.virustotal.link }}')">
                             <svg viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg>
                         </button>
-                        <button class="copy-md-btn" data-tooltip="Copy as MD" onclick="copyTextAsMarkdown('virustotal-text', this, '{{ report.virustotal.link }}')">
+                        <button class="copy-md-btn" data-tooltip="Copy Markdown" onclick="copyTextAsMarkdown('virustotal-text', this, '{{ report.virustotal.link }}')">
                             <svg viewBox="0 0 16 16"><path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l3.5-3.5a.5.5 0 0 0-.708 0z"/></svg>
                         </button>
                     </div>
                 </div>
 
-                {% if report.virustotal.malicious is defined and report.virustotal.total is defined %}
                 <div class="threat-score-container">
+                     {% if report.virustotal.malicious is defined and report.virustotal.total is defined %}
                     <p><strong>Detection Rate:</strong> {{ report.virustotal.malicious }} / {{ report.virustotal.total }}</p>
                     <div class="threat-progress">
                         {% set malicious_count = report.virustotal.malicious | int %}
                         {% set total_s = report.virustotal.total | int %}
                         {% set vt_percentage = (malicious_count / total_s * 100) if total_s > 0 else 0 %}
-                        {% set bar_color = 'var(--threat-low)' %} {# Default to low/none #}
-                        {% if malicious_count > 2 %}
-                            {% set bar_color = 'var(--threat-high)' %}
-                        {% elif malicious_count > 0 %}
-                            {% set bar_color = 'var(--threat-medium)' %}
+                        {% set bar_color = 'var(--threat-low)' %}
+                        {% if malicious_count > 2 %}{% set bar_color = 'var(--threat-high)' %}
+                        {% elif malicious_count > 0 %}{% set bar_color = 'var(--threat-medium)' %}
                         {% endif %}
                         <div class="threat-progress-bar" style="width: {{ vt_percentage | round | int }}%; background-color: {{ bar_color }};"></div>
                     </div>
+                    {% endif %}
                 </div>
-                {% endif %}
 
                 <div id="virustotal-text">
-                    <p class="report-summary">{{ report.virustotal.summary }}</p>
+                    {% if report.virustotal.summary %}
+                    <div class="summary-highlight-card">
+                        <p class="report-summary">{{ report.virustotal.summary }}</p>
+                    </div>
+                    {% endif %}
                     <p><strong>AS Owner:</strong> {{ report.virustotal.as_owner }}</p>
                     <p><strong>Location:</strong> {{ report.virustotal.country }}</p>
                 </div>
                 <a href="{{ report.virustotal.link }}" target="_blank" rel="noopener noreferrer" class="view-report-link">
-                    <button type="button">View Full Report</button>
+                    <button type="button">Full Report</button>
                 </a>
             </div>
         {% endif %}
@@ -530,111 +632,96 @@
         {% if report.ipapi %}
             <div class="section" id="ipapi-section">
                  <div class="card-header-flex">
-                    <h3>🌐 IP-API Report</h3>
+                    <h3>IP-API</h3> 
                     <div class="action-buttons-header">
-                        <button class="copy-btn" data-tooltip="Copy" onclick="copyText('ipapi-text', this, '{{ report.ipapi.link }}')">
+                        <button class="copy-btn" data-tooltip="Copy Text" onclick="copyText('ipapi-text', this, '{{ report.ipapi.link }}')">
                             <svg viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg>
                         </button>
-                        <button class="copy-md-btn" data-tooltip="Copy as MD" onclick="copyTextAsMarkdown('ipapi-text', this, '{{ report.ipapi.link }}')">
+                        <button class="copy-md-btn" data-tooltip="Copy Markdown" onclick="copyTextAsMarkdown('ipapi-text', this, '{{ report.ipapi.link }}')">
                             <svg viewBox="0 0 16 16"><path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l3.5-3.5a.5.5 0 0 0-.708 0z"/></svg>
                         </button>
                     </div>
                 </div>
-                <div id="ipapi-text">
-                    <p class="report-summary">{{ report.ipapi.summary }}</p>
+
+                <div class="ipapi-visuals-top-container">
+                    <p class="info-indicator">
+                        <strong>Proxy:</strong>
+                        <span class="status-light {% if (report.ipapi.proxy == 'True' or report.ipapi.proxy == True) %}is-true{% else %}is-false{% endif %}"></span>
+                    </p>
+                    <p class="info-indicator">
+                        <strong>Hosting:</strong>
+                        <span class="status-light {% if (report.ipapi.hosting == 'True' or report.ipapi.hosting == True) %}is-true{% else %}is-false{% endif %}"></span>
+                    </p>
+                </div>
+
+                <div id="ipapi-text" class="{% if not report.ipapi.summary %}ipapi-text-no-summary{% endif %}">
+                    {% if report.ipapi.summary %}
+                    <div class="summary-highlight-card">
+                        <p class="report-summary">{{ report.ipapi.summary }}</p>
+                    </div>
+                    {% endif %}
                     <p><strong>ISP:</strong> {{ report.ipapi.isp }}</p>
                     <p><strong>City:</strong> {{ report.ipapi.city }}</p>
                     <p><strong>Country:</strong> {{ report.ipapi.country }}</p>
-                    <p><strong>Proxy:</strong> {{ report.ipapi.proxy }}</p>
-                    <p><strong>Hosting:</strong> {{ report.ipapi.hosting }}</p>
+                    <p><strong>Proxy:</strong> {{ report.ipapi.proxy }}</p> 
+                    <p><strong>Hosting:</strong> {{ report.ipapi.hosting }}</p> 
                 </div>
                 <a href="{{ report.ipapi.link }}" target="_blank" rel="noopener noreferrer" class="view-report-link">
-                    <button type="button">View Full Report</button>
+                    <button type="button">Full Report</button>
                 </a>
             </div>
         {% endif %}
     </div>
 
     <script>
+        // JS remains the same
         function copyText(elementId, buttonElement, linkHref) {
             const element = document.getElementById(elementId);
-            if (!element) {
-                console.error("Element not found for copy: ", elementId);
-                return;
-            }
-            
+            if (!element) { console.error("Element not found for copy: ", elementId); return; }
             let textToCopy = "";
-            const paragraphs = element.querySelectorAll('p');
-            paragraphs.forEach(p => {
-                textToCopy += p.innerText + "\n";
-            });
+            const paragraphs = element.querySelectorAll(':scope > p, :scope > .summary-highlight-card > p.report-summary');
+            paragraphs.forEach(p => { textToCopy += p.innerText + "\n"; });
             textToCopy = textToCopy.trim();
-
-            if (linkHref) {
-                textToCopy += `\n\nView Full Report: ${linkHref}`;
-            }
-
+            if (linkHref) { textToCopy += `\n\nView Full Report: ${linkHref}`; }
             navigator.clipboard.writeText(textToCopy).then(() => {
-                const originalTooltip = buttonElement.getAttribute('data-tooltip'); // Store original
+                const originalTooltip = buttonElement.getAttribute('data-tooltip'); 
                 buttonElement.setAttribute('data-tooltip', 'Copied!');
-                setTimeout(() => {
-                     buttonElement.setAttribute('data-tooltip', originalTooltip); // Restore original
-                }, 1500);
+                setTimeout(() => { buttonElement.setAttribute('data-tooltip', originalTooltip); }, 1500);
             }).catch(err => {
                 console.error("Failed to copy: ", err);
-                const originalTooltip = buttonElement.getAttribute('data-tooltip'); // Store original
-                 buttonElement.setAttribute('data-tooltip', 'Failed!');
-                 setTimeout(() => {
-                     buttonElement.setAttribute('data-tooltip', originalTooltip); // Restore original
-                 }, 1500);
+                const originalTooltip = buttonElement.getAttribute('data-tooltip'); 
+                buttonElement.setAttribute('data-tooltip', 'Failed!');
+                setTimeout(() => { buttonElement.setAttribute('data-tooltip', originalTooltip); }, 1500);
             });
         }
 
         function copyTextAsMarkdown(elementId, buttonElement, linkHref) {
             const element = document.getElementById(elementId);
-            if (!element) {
-                console.error("Element not found for MD copy: ", elementId);
-                return;
-            }
-
+            if (!element) { console.error("Element not found for MD copy: ", elementId); return; }
             let markdownText = "";
-            
-            const childParagraphs = element.querySelectorAll('p');
-
+            const childParagraphs = element.querySelectorAll(':scope > p, :scope > .summary-highlight-card > p.report-summary');
             childParagraphs.forEach(p => {
-                if (p.classList.contains('report-summary')) {
-                    markdownText += "- " + p.innerText.trim() + "\n";
+                if (p.classList.contains('report-summary')) { markdownText += "- " + p.innerText.trim() + "\n";
                 } else {
                     const strongTag = p.querySelector('strong');
                     if (strongTag) {
                         const label = strongTag.innerText.replace(':', '').trim();
                         const value = p.innerText.replace(strongTag.innerText, '').trim();
                         markdownText += `   - **${label}:** ${value}\n`;
-                    } else { 
-                        markdownText += p.innerText.trim() + "\n"; 
-                    }
+                    } else { markdownText += p.innerText.trim() + "\n"; }
                 }
             });
-
             markdownText = markdownText.trim(); 
-
-            if (linkHref) {
-                markdownText += `\n   - [View Full Report](${linkHref})`;
-            }
-
+            if (linkHref) { markdownText += `\n   - [View Full Report](${linkHref})`;}
             navigator.clipboard.writeText(markdownText).then(() => {
                 const originalTooltipText = buttonElement.getAttribute('data-tooltip');
                 buttonElement.setAttribute('data-tooltip', 'Copied MD!');
-                setTimeout(() => {
-                    buttonElement.setAttribute('data-tooltip', originalTooltipText);
-                }, 1500);
+                setTimeout(() => { buttonElement.setAttribute('data-tooltip', originalTooltipText); }, 1500);
             }).catch(err => {
                 console.error("Failed to copy as Markdown: ", err);
                 const originalTooltipText = buttonElement.getAttribute('data-tooltip');
                 buttonElement.setAttribute('data-tooltip', 'Failed MD!');
-                 setTimeout(() => {
-                    buttonElement.setAttribute('data-tooltip', originalTooltipText);
-                }, 1500);
+                setTimeout(() => { buttonElement.setAttribute('data-tooltip', originalTooltipText); }, 1500);
             });
         }
 
@@ -645,51 +732,22 @@
         if (analyzeForm) {
             analyzeForm.addEventListener('submit', function(event) {
                 const ipInput = analyzeForm.querySelector('input[name="ip"]');
-                if (!ipInput || !ipInput.value.trim()) {
-                    // If you want to prevent form submission for empty IP, uncomment:
-                    // event.preventDefault(); 
-                    // alert("Please enter an IP address.");
-                    return; 
-                }
-
+                if (!ipInput || !ipInput.value.trim()) { return; }
                 progressContainer.style.display = 'block';
                 progressBar.style.width = '0%';
                 let width = 0;
-                const intervalTime = 150; 
-                const increment = 10; 
-                
-                // Simulate progress, clear if it goes beyond (should be stopped by server response in a real app)
+                const intervalTime = 150; const increment = 10; 
                 const interval = setInterval(() => {
                     width += increment; 
-                    if (width <= 100) {
-                        progressBar.style.width = width + '%';
-                    }
-                    if (width >=100) { 
-                        clearInterval(interval);
-                        // Optionally hide progress bar after a delay if form submission is quick
-                        // setTimeout(() => { progressContainer.style.display = 'none'; }, 500);
-                    }
+                    if (width <= 100) { progressBar.style.width = width + '%'; }
+                    if (width >=100) { clearInterval(interval); }
                 }, intervalTime); 
             });
         }
         
         document.addEventListener('DOMContentLoaded', () => {
-            const reportsContainer = document.querySelector('.reports-container');
-            // If there are reports, and progress is full, hide the main progress bar.
-            // This is a simple client-side check. Server-side rendering should ideally not show it if results are present.
-            if (reportsContainer && reportsContainer.children.length > 0) {
-                 if (progressBar.style.width === '100%') { // Or some other condition indicating completion
-                    // progressContainer.style.display = 'none'; // Keep it if still loading, hide if truly done.
-                 }
-            } else {
-                // If no reports, ensure progress bar is hidden unless a submission is active
-                 if (progressBar.style.width === '0%') {
-                    // progressContainer.style.display = 'none'; // Already hidden by default CSS
-                 }
-            }
-             // Ensure "Copy" / "Copy as MD" is the default tooltip text
-            document.querySelectorAll('.copy-btn').forEach(btn => btn.setAttribute('data-tooltip', 'Copy'));
-            document.querySelectorAll('.copy-md-btn').forEach(btn => btn.setAttribute('data-tooltip', 'Copy as MD'));
+            document.querySelectorAll('.copy-btn').forEach(btn => btn.setAttribute('data-tooltip', 'Copy Text'));
+            document.querySelectorAll('.copy-md-btn').forEach(btn => btn.setAttribute('data-tooltip', 'Copy Markdown'));
         });
     </script>
 </body>
