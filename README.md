@@ -5,6 +5,7 @@ IP Threat Analyzer is a beautifully crafted, developer-friendly web application 
 
 
 🚀 Features
+
 🔍 Instant Lookup — Submit any IP and get a comprehensive risk summary
 
 🛡️ AbuseIPDB Integration — View abuse confidence scores, reports, and whitelist info
