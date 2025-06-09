@@ -114,46 +114,75 @@ def aggregate_report_data(report_data, ip):
 
     abuse = report_data.get('abuseipdb', {})
     abuse_score = abuse.get('abuseConfidenceScore')
+    calculated_risk_score = 0
+    risk_factors_found = []
+
+    # --- AbuseIPDB Scoring ---
     if abuse_score is not None:
         abuse_score = int(abuse_score)
-        if abuse_score > 75:
+        if abuse_score >= 90:
+            calculated_risk_score += 4
+            risk_factors_found.append(f"very high AbuseIPDB confidence ({abuse_score}%)")
+        elif abuse_score >= 70:
             calculated_risk_score += 3
             risk_factors_found.append(f"high AbuseIPDB confidence ({abuse_score}%)")
-        elif abuse_score > 25:
-            calculated_risk_score += 1
+        elif abuse_score >= 40:
+            calculated_risk_score += 2
             risk_factors_found.append(f"moderate AbuseIPDB confidence ({abuse_score}%)")
+        elif abuse_score >= 10:
+            calculated_risk_score += 1
+            risk_factors_found.append(f"low AbuseIPDB confidence ({abuse_score}%)")
 
+    # --- VirusTotal Scoring ---
     vt = report_data.get('virustotal', {})
     vt_malicious = vt.get('malicious')
+
     if vt_malicious is not None:
         vt_malicious = int(vt_malicious)
-        if vt_malicious > 5:
+        if vt_malicious >= 60:
             calculated_risk_score += 4
-            risk_factors_found.append(f"{vt_malicious} VirusTotal detections")
-        elif vt_malicious > 0:
+            risk_factors_found.append(f"{vt_malicious} VirusTotal detections (very high)")
+        elif vt_malicious >= 40:
+            calculated_risk_score += 3
+            risk_factors_found.append(f"{vt_malicious} VirusTotal detections (high)")
+        elif vt_malicious >= 20:
             calculated_risk_score += 2
-            risk_factors_found.append(f"{vt_malicious} VirusTotal detection(s)")
+            risk_factors_found.append(f"{vt_malicious} VirusTotal detections (moderate)")
+        elif vt_malicious > 5:
+            calculated_risk_score += 1
+            risk_factors_found.append(f"{vt_malicious} VirusTotal detection(s) (low)")
 
-    if ipapi_data.get("proxy", ""):
+    # --- Proxy/VPN Detection (Optional Weight) ---
+    proxy_detected = ipapi_data.get("proxy", False)
+    if proxy_detected:
         calculated_risk_score += 1
         risk_factors_found.append("identified as Proxy/VPN")
 
-    # Final risk classification
+    # --- Risk Level Classification ---
     if not risk_factors_found and (abuse or vt or ipapi_data):
         overall_risk_level = "Low"
         overall_risk_summary_text = "No significant threat indicators found."
-    elif calculated_risk_score >= 5:
+
+    elif calculated_risk_score >= 6:
         overall_risk_level = "Critical"
         overall_risk_summary_text = "Multiple critical threat indicators: " + ", ".join(risk_factors_found) + "."
-    elif calculated_risk_score >= 3:
+
+    elif calculated_risk_score >= 4:
         overall_risk_level = "High"
         overall_risk_summary_text = "Significant threat indicators: " + ", ".join(risk_factors_found) + "."
-    elif calculated_risk_score >= 1:
+
+    elif calculated_risk_score >= 2:
         overall_risk_level = "Medium"
         overall_risk_summary_text = "Some potential concerns: " + ", ".join(risk_factors_found) + "."
+
     elif risk_factors_found:
         overall_risk_level = "Low"
         overall_risk_summary_text = "Minor indicators noted: " + ", ".join(risk_factors_found) + "."
+
+    else:
+        overall_risk_level = "None"
+        overall_risk_summary_text = "No data available to assess risk."
+
 
     return {
         "ip": ip,
@@ -165,5 +194,3 @@ def aggregate_report_data(report_data, ip):
         "risk_score": calculated_risk_score,
         "risk_factors": risk_factors_found
     }
-
-
