@@ -19,7 +19,7 @@ def get_country_name(code):
 def check_abuseipdb(ip):
     url = "https://api.abuseipdb.com/api/v2/check"
     headers = {"Accept": "application/json", "Key": ABUSEIPDB_API_KEY}
-    params = {"ipAddress": ip, "maxAgeInDays": 90}
+    params = {"ipAddress": ip, "maxAgeInDays": 365}
     link = f"https://www.abuseipdb.com/check/{ip}"
 
     response = requests.get(url, headers=headers, params=params)
